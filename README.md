@@ -1,26 +1,25 @@
-#  Streamoid Intern — Product Upload & Search API
+# 🛍️ Streamoid Intern — Product Upload & Search API
 
-# A simple Node.js + SQLite API to upload, validate, list, search, and export product data —
-# all testable directly from your terminal using `npm start` and `curl`.
+A simple **Node.js + SQLite** API to upload, validate, list, search, and export product data —  
+all testable directly from your terminal using **`npm start`** and **`curl`**.
 
-# ---------------------------------------------------------------------------
-#  Getting Started
-# ---------------------------------------------------------------------------
+---
 
-#  Prerequisites
+##  Getting Started
 
-# Install Node.js (v18+) and npm if not already installed
-node -v
-npm -v
+###  Prerequisites
 
-# Make sure you have a file named products.csv in your main folder
-ls
-# Expected output:
-# products.csv
+Make sure you have the following installed:
 
-# ---------------------------------------------------------------------------
-#  Installation & Launch
-# ---------------------------------------------------------------------------
+- Node.js (v18+)
+- npm
+
+Also ensure you have a file named **`products.csv`** in your main folder.
+
+---
+
+##  Installation & Launch
+
 
 # Step 1: Navigate to the project folder
 cd StreamoidIntern
@@ -30,47 +29,44 @@ npm install express multer csv-parser sqlite3 json2csv console.table
 
 # Step 3: Start the server
 npm start
+Server runs at http://localhost:8000
+Keep this terminal open — it acts as your Server Log.
 
-# The server will start at:
-# http://localhost:8000
-#
-# Keep this terminal open — it acts as your Server Log.
+💻 Testing APIs Using curl
+Open a new terminal window to test your endpoints
+(Keep your first terminal running the server).
 
-# ---------------------------------------------------------------------------
-#  Testing APIs Using curl
-# ---------------------------------------------------------------------------
-
-# Open a new terminal window to run the following commands
-# (Keep your first terminal running the server)
-
-# ---------------------------------------------------------------------------
-# 1️⃣ Upload the products.csv file to the server
-# ---------------------------------------------------------------------------
-
+1️⃣ Upload the CSV File
+bash
+Copy code
 curl -X POST -F "file=@products.csv" http://localhost:8000/upload
+✅ Success Output
 
-# ✅ Example Success Output:
-# {"stored": 20, "failed": []}
+json
+Copy code
+{"stored": 20, "failed": []}
+❌ Failure Output
 
-# ❌ Example Failure Output:
-# {"stored": 19, "failed": [{"sku": "FAIL-PRICE", "reason": "Price cannot be greater than MRP"}]}
+json
+Copy code
+{"stored": 19, "failed": [{"sku": "FAIL-PRICE", "reason": "Price cannot be greater than MRP"}]}
+💡 Check the first terminal window — failed rows will appear in a neat table.
 
-
-# ---------------------------------------------------------------------------
-# 2️⃣ List Products with Pagination
-# ---------------------------------------------------------------------------
-
-# Fetch products from page 2 with limit 5
+2️⃣ List Products with Pagination
+bash
+Copy code
 curl "http://localhost:8000/products?page=2&limit=5"
+📦 Example Output
 
-# Example Output:
-# [ { "sku": "A101", "name": "T-shirt", "price": 1999, ... }, ... ]
-
-
-# ---------------------------------------------------------------------------
-# 3️⃣ Search and Filter Products
-# ---------------------------------------------------------------------------
-
+json
+Copy code
+[
+  { "sku": "A101", "name": "T-shirt", "price": 1999 },
+  ...
+]
+3️⃣ Search & Filter Products
+bash
+Copy code
 # Search by brand
 curl "http://localhost:8000/products/search?brand=Stream Threads"
 
@@ -79,65 +75,44 @@ curl "http://localhost:8000/products/search?minPrice=1500&maxPrice=2500"
 
 # Combine filters
 curl "http://localhost:8000/products/search?brand=BloomWear&maxPrice=2200"
-
-
-# ---------------------------------------------------------------------------
-# 4️⃣ Download Filtered Data as CSV
-# ---------------------------------------------------------------------------
-
-# Export filtered results as CSV file
+4️⃣ Download Filtered Data as CSV
+bash
+Copy code
 curl "http://localhost:8000/products/download?brand=Stream%20Threads" --output "stream_threads_export.csv"
+📁 Verify the file:
 
-# Verify the exported CSV file exists
+bash
+Copy code
 ls
-# Expected output:
 # products.csv  stream_threads_export.csv
+🧩 Tech Stack
+Package	Purpose
+express	Web framework
+multer	File uploads
+csv-parser	CSV parsing
+sqlite3	Lightweight database
+json2csv	Export data to CSV
+console.table	Pretty tables in terminal
 
-
-# ---------------------------------------------------------------------------
-#  Frameworks and Libraries Used
-# ---------------------------------------------------------------------------
-
-express         # Web framework
-multer          # File uploads
-csv-parser      # CSV reading
-sqlite3         # Lightweight database
-json2csv        # Export to CSV
-console.table   # Pretty tables in terminal
-
-
-# ---------------------------------------------------------------------------
-# 🏁 Example Workflow
-# ---------------------------------------------------------------------------
-
+🏁 Example Workflow
+bash
+Copy code
 # 1. Start the server
 npm start
 
 # 2. Upload CSV
 curl -X POST -F "file=@products.csv" http://localhost:8000/upload
 
-# 3. List all products
+# 3. List products
 curl "http://localhost:8000/products"
 
 # 4. Search or filter
 curl "http://localhost:8000/products/search?brand=Stream Threads"
 
-# 5. Export filtered data as CSV
+# 5. Export filtered data
 curl "http://localhost:8000/products/download?brand=Stream%20Threads" --output "stream_threads_export.csv"
+🧠 Notes
+Fully testable using only terminal commands — no Postman or UI needed.
 
+The server console logs validations and results in tabular format.
 
-# ---------------------------------------------------------------------------
-# Notes
-# ---------------------------------------------------------------------------
-
-# - Everything works directly through terminal commands.
-# - No Postman or frontend required.
-# - The first terminal acts as your Server Log.
-# - Validation errors and product tables appear live in the console.
-
-# ---------------------------------------------------------------------------
-#  Author
-# MAYANK SINGH ---------------------------------------------------------------------------
-
-# Streamoid Intern Project
-# Built using Node.js, SQLite, and terminal-first design.
