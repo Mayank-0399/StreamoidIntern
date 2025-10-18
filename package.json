@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "csv-parser": "^3.2.0",
+    "express": "^5.1.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "multer": "^2.0.2",
+    "open": "^10.2.0",
+    "sqlite3": "^5.1.7"
+  },
+  "name": "streamoidintern",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
